@@ -11,29 +11,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         <div>TODO write content</div>
-        <form>
-            <h2>INICIO DE SESSIóN 🌍</h2>
+        <form onsubmit="return false;">
+            <h2>INICIO DE SESIÓN 🌍</h2>
             <label>Ingrese usuario: </label><br/>
             <input type="text" id="user"><br>
-            <label>Ingrese Contraseña: </label><br/>
+            <label>Ingrese contraseña: </label><br/>
             <input type="password" id="pass"><br/>
             <button id="btnIniciar">Iniciar</button>
         </form>
-        
+
         <script>
-            let btnMiBoton = document.getElementById("miboton");
-            btnMiBoton.addEventListener("click", function () {
+            let btnIniciar = document.getElementById("btnIniciar");
+            btnIniciar.addEventListener("click", function () {
                 let user = document.getElementById("user").value;
                 let pass = document.getElementById("pass").value;
 
-                // Construir la URL con los parámetros codificados
-                let url = `Logueo?user =${encodeURIComponent(user)}&ass=${encodeURIComponent(pass)}`;
+                let url = `logueousuario?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
 
                 fetch(url)
                         .then(response => response.json())
                         .then(data => {
                             if (data.resultado === "ok") {
-                                alert("Inicio de sesión exitoso");
+                                //alert("Inicio de sesión exitoso, todo esta bien");
+                                // Aquí podrías redirigir, por ejemplo:
+                                 window.location.href = "clientes.html";
                             } else {
                                 alert("Usuario o contraseña incorrectos");
                             }

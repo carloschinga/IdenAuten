@@ -3,7 +3,11 @@
   <persistence-unit name="com.mycompany_Cripto06_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dto.Usuario</class>
+<<<<<<< HEAD
     <class>dto.Producto</class>
+=======
+    <class>dto.Cliente</class>
+>>>>>>> ecc354c460e2924c0b9fcfc5e2e46dc1c2f16c89
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cripto?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
