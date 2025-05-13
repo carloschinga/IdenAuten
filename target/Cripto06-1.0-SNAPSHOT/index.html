@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <form>
+            <h2>INICIO DE SESSIóN 🌍</h2>
+            <label>Ingrese usuario: </label><br/>
+            <input type="text" id="user"><br>
+            <label>Ingrese Contraseña: </label><br/>
+            <input type="password" id="pass"><br/>
+            <button id="btnIniciar">Iniciar</button>
+        </form>
+        
+        <script>
+            let btnMiBoton = document.getElementById("miboton");
+            btnMiBoton.addEventListener("click", function () {
+                let user = document.getElementById("user").value;
+                let pass = document.getElementById("pass").value;
+
+                // Construir la URL con los parámetros codificados
+                let url = `Logueo?user =${encodeURIComponent(user)}&ass=${encodeURIComponent(pass)}`;
+
+                fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.resultado === "ok") {
+                                alert("Inicio de sesión exitoso");
+                            } else {
+                                alert("Usuario o contraseña incorrectos");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al procesar la solicitud:", error);
+                        });
+            });
+        </script>
+    </body>
+</html>

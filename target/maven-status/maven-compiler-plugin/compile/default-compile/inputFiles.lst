@@ -1,0 +1,11 @@
+D:\java\IdenAuten\src\main\java\dto\Usuario.java
+D:\java\IdenAuten\src\main\java\dao\ProductoJpaController.java
+D:\java\IdenAuten\src\main\java\dto\Producto.java
+D:\java\IdenAuten\src\main\java\dao\exceptions\PreexistingEntityException.java
+D:\java\IdenAuten\src\main\java\dao\exceptions\IllegalOrphanException.java
+D:\java\IdenAuten\src\main\java\dao\exceptions\NonexistentEntityException.java
+D:\java\IdenAuten\src\main\java\util\Main.java
+D:\java\IdenAuten\src\main\java\servlet\LogueoUsuario.java
+D:\java\IdenAuten\src\main\java\dao\UsuarioJpaController.java
+D:\java\IdenAuten\src\main\java\servlet\ApiProducto.java
+D:\java\IdenAuten\src\main\java\util\JwtUtil.java
