@@ -32,9 +32,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         .then(response => response.json())
                         .then(data => {
                             if (data.resultado === "ok") {
-                                alert("Inicio de sesión exitoso, todo esta bien");
+                                //alert("Inicio de sesión exitoso, todo esta bien");
                                 // Aquí podrías redirigir, por ejemplo:
-                                // window.location.href = "inicio.jsp";
+                                 window.location.href = "clientes.html";
                             } else {
                                 alert("Usuario o contraseña incorrectos");
                             }
