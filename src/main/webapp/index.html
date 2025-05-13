@@ -19,5 +19,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <input type="password" id="pass"><br/>
             <button id="btnIniciar">Iniciar</button>
         </form>
+        
+        <script>
+            let btnMiBoton = document.getElementById("miboton");
+            btnMiBoton.addEventListener("click", function () {
+                let user = document.getElementById("user").value;
+                let pass = document.getElementById("pass").value;
+
+                // Construir la URL con los parámetros codificados
+                let url = `Logueo?user =${encodeURIComponent(user)}&ass=${encodeURIComponent(pass)}`;
+
+                fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.resultado === "ok") {
+                                alert("Inicio de sesión exitoso");
+                            } else {
+                                alert("Usuario o contraseña incorrectos");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al procesar la solicitud:", error);
+                        });
+            });
+        </script>
     </body>
 </html>
