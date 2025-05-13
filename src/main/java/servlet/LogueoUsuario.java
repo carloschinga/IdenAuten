@@ -4,13 +4,17 @@
  */
 package servlet;
 
+import dao.UsuarioJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,16 +36,27 @@ public class LogueoUsuario extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LogueoUsuario</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LogueoUsuario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            String user = request.getParameter("user");
+            String pass = request.getParameter("pass");
+
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Cripto06_war_1.0-SNAPSHOTPU");
+            UsuarioJpaController usuDAO = new UsuarioJpaController(emf);
+
+            
+            boolean b = usuDAO.validar(user, pass);
+
+            if (b) {
+                
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("usuario", user);
+
+                // Respuesta en formato JSON
+                out.println("{\"resultado\":\"ok\"}");
+            } else {
+                out.println("{\"resultado\":\"error\"}");
+            }
         }
     }
 
