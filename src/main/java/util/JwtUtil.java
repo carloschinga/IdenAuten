@@ -4,52 +4,58 @@
  */
 package util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  *
  * @author USER
  */
 public class JwtUtil {
-    private static final String SECRET_KEY = "mysecret"; // Cambia esto en producción
+    // Clave secreta generada una vez (debe ser de al menos 256 bits para HS256)
 
-    public static String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+    private static final String SECRET_KEY_BASE64 = "v3pXJ7jN9oRgXzKeFzRtXnx5F/NGsWNOQwrp1U/HRJ0=";
+
+    private static Key getSigningKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY_BASE64);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private static String createToken(Map<String, Object> claims, String subject) {
+    public static String generarToken(String username) {
+        long tiempoExpiracionMs = 1000 * 60 * 60; // 1 hora
+
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + tiempoExpiracionMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public static boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public static boolean validarToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            System.out.println("Token inválido: " + e.getMessage());
+            return false;
+        }
     }
 
-    public static String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    private static Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-    }
-
-    private static boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
+    public static String obtenerUsername(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
 }
