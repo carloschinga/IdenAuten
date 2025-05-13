@@ -6,8 +6,12 @@ util\Main.class
 dao\ProductoJpaController.class
 dto\Producto_.class
 servlet\ApiProducto.class
+dao\ClienteJpaController.class
 servlet\LogueoUsuario.class
+dto\Cliente_.class
 dto\Usuario_.class
 dao\exceptions\PreexistingEntityException.class
 dto\Producto.class
+servlet\ClienteListarServlet.class
 dao\exceptions\IllegalOrphanException.class
+dto\Cliente.class
