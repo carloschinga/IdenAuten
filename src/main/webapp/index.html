@@ -32,9 +32,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         .then(response => response.json())
                         .then(data => {
                             if (data.resultado === "ok") {
+                                console.log(data.token);
+                                // Ejemplo:
+                                setCookie("token", data.token, 7);
                                 //alert("Inicio de sesión exitoso, todo esta bien");
                                 // Aquí podrías redirigir, por ejemplo:
-                                 window.location.href = "clientes.html";
+                                window.location.href = "clientes.html";
                             } else {
                                 alert("Usuario o contraseña incorrectos");
                             }
@@ -43,6 +46,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             console.error("Error al procesar la solicitud:", error);
                         });
             });
+
+            // Crear una cookie llamada "usuario" con valor "Juan" que expira en 7 días
+            function setCookie(nombre, valor, dias) {
+                const fecha = new Date();
+                fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+                const expira = "expires=" + fecha.toUTCString();
+                document.cookie = nombre + "=" + valor + ";" + expira + ";path=/";
+            }
+
+
+
+            
+
+
+
         </script>
     </body>
 </html>

@@ -51,9 +51,10 @@ public class LogueoUsuario extends HttpServlet {
                 
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("usuario", user);
+                String token=util.JwtUtil.generarToken(user);
 
                 // Respuesta en formato JSON
-                out.println("{\"resultado\":\"ok\"}");
+                out.println("{\"resultado\":\"ok\",\"token\":\""+token+"\"}");
             } else {
                 out.println("{\"resultado\":\"error\"}");
             }

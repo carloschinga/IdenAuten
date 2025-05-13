@@ -34,8 +34,10 @@
     </table>
 
     <script>
+        let token= getCookie("token");
+        console.log(token);
         document.addEventListener("DOMContentLoaded", () => {
-            fetch("clientes")
+            fetch("clientes?token=" + encodeURIComponent(token))
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error al obtener los clientes");
@@ -60,6 +62,18 @@
                     console.error("Error al cargar clientes:", error);
                 });
         });
+        
+        function getCookie(nombre) {
+                const nombreEQ = nombre + "=";
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let c = cookies[i].trim();
+                    if (c.indexOf(nombreEQ) === 0) {
+                        return c.substring(nombreEQ.length, c.length);
+                    }
+                }
+                return null;
+            }
     </script>
 </body>
 </html>

@@ -37,25 +37,37 @@ public class ClienteListarServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String token = request.getParameter("token");
+        boolean b = util.JwtUtil.validarToken(token);
         EntityManager em = emf.createEntityManager();
-        List<Cliente> clientes = em.createNamedQuery("Cliente.findAll", Cliente.class).getResultList();
 
-        JSONArray jsonArray = new JSONArray();
-        for (Cliente c : clientes) {
-            JSONObject obj = new JSONObject();
-            obj.put("codiClie", c.getCodiClie());
-            obj.put("appaClie", c.getAppaClie());
-            obj.put("apmaClie", c.getApmaClie());
-            obj.put("nombClie", c.getNombClie());
-            jsonArray.put(obj);
+        if (b) {
+            List<Cliente> clientes = em.createNamedQuery("Cliente.findAll", Cliente.class).getResultList();
+            JSONArray jsonArray = new JSONArray();
+            for (Cliente c : clientes) {
+                JSONObject obj = new JSONObject();
+                obj.put("codiClie", c.getCodiClie());
+                obj.put("appaClie", c.getAppaClie());
+                obj.put("apmaClie", c.getApmaClie());
+                obj.put("nombClie", c.getNombClie());
+                jsonArray.put(obj);
+            }
+
+            response.setContentType("application/json;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                out.print(jsonArray.toString());
+            } finally {
+                em.close();
+            }
+        } else {
+            response.setContentType("application/json;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{\"resultado\":\"error\"}");
+            } finally {
+                em.close();
+            }
         }
 
-        response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.print(jsonArray.toString());
-        } finally {
-            em.close();
-        }
     }
 
     @Override
